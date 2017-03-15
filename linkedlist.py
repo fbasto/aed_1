@@ -132,9 +132,7 @@ if __name__ == "__main__":
       if(userop == 1):  #PESQUISA
          usercrit = eval(input("1-Pesquisa por nome\n2-Pesquisa por sigla\n"))
          usertext = input("Inserir palavra: ")
-
-         if(timer is True):
-            start=time.time()
+         start=time.time()
          if(usercrit == 1):
             aux = l.find(usertext)
          if(usercrit == 2):
@@ -144,14 +142,12 @@ if __name__ == "__main__":
          if(timer is True):
             end=time.time()
             print("Operacao demorou: %.10f segundos" %(end-start))
-            
+
       if(userop == 2):  #INSERCAO
          # usercrit = eval(input("Pretende inserir todas as percentagem da populacao portuguesa com acesso a rede eletrica? 1-Sim 2-Não"))
          usertext = input("Indicar nome de país a inserir: ")
          usertext2 = input("Indicar codigo de país a inserir: ")
-
-         if(timer is True):
-            start=time.time()
+         start=time.time()
          l.add(usertext,usertext2)
          # if(usercrit == 1):
          #    aux = l.add(usertext,usertext2)
@@ -167,9 +163,7 @@ if __name__ == "__main__":
          usertext = input("Indicar nome do país de que se pretende alterar a percentagem: ")
          usertext2 = eval(input("Indicar ano que se pretende alterar (1960 a 2016 inclusive): "))
          usertext3 = eval(input("Indicar valor: "))
-
-         if(timer is True):
-            start=time.time()
+         start=time.time()
          aux = l.find(usertext)
          if(aux != None):
             aux.get_ctry_pop()[usertext2] = usertext3
@@ -181,8 +175,7 @@ if __name__ == "__main__":
          usercrit = eval(input("1-Remover país da lista\n2-Remover percentagem de um país-ano\n"))
          if(usercrit == 1):
             usertext = input("Indicar nome de país que se pretende remover: ")
-            if(timer is True):
-               start=time.time()
+            start=time.time()
             l.remove(usertext)
             if(timer is True):
                end=time.time()
@@ -190,8 +183,7 @@ if __name__ == "__main__":
          if(usercrit == 2):
             usertext = input("Indicar nome do país do qual se pretende remover uma percentagem: ")
             usertext2 = eval(input("Indicar o ano do qual se pretende remover uma percentagem: "))
-            if(timer is True):
-               start=time.time()
+            start=time.time()
             aux = l.find(usertext)
             if(aux != None):
                aux.get_ctry_pop()[usertext2] = None
@@ -211,3 +203,4 @@ if __name__ == "__main__":
 #Timer
 # start=time.time()
 # end=time.time()
+# print("Operacao demorou: %.10f segundos" %(end-start))
