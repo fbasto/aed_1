@@ -4,12 +4,16 @@ class Node:
    def __init__(self, init_ctry_name, init_ctry_code):
       self.ctry_name = init_ctry_name
       self.ctry_code = init_ctry_code
-      self.ctry_pop = LinkedList()
+      self.ctry_pop = {}
+      for i in range(0,57):
+         self.ctry_pop[1960+i] = None
       self.next = None
    def get_ctry_name(self):
       return self.ctry_name
    def get_ctry_code(self):
       return self.ctry_code
+   def get_ctry_pop(self):
+      return self.ctry_pop
    def get_next(self):
          return self.next
    def set_ctry_name(self, new_ctry_name):
@@ -17,11 +21,14 @@ class Node:
    def set_ctry_code(self, new_ctry_code):
       self.ctry_code = newctry_code
    def add_ctry_pop(self, new_ctry_pop):
-      self.ctry_pop.add(new_ctry_pop)
+      self.ctry_pop = new_ctry_pop
    def set_next(self, new_next):
       self.next = new_next   
-   def print(self)
-      print(,end='')
+   def nodeprint(self):
+       print(self.ctry_name,self.ctry_code,end=' ')
+       print(self.ctry_pop)
+
+         
 
 class LinkedList:
    def __init__(self):
@@ -31,7 +38,8 @@ class LinkedList:
    def add(self, ctry_name, ctry_code):
       temp = Node(ctry_name, ctry_code)
       temp.set_next(self.head)
-      self.head = temp     
+      self.head = temp
+      return self.head     
    def remove(self, item):
       current = self.head
       previous = None
@@ -52,12 +60,12 @@ class LinkedList:
       currentNode = self.head
       if currentNode == None:
          return 0
-      # print(currentNode.get_ctry_name()
+      print(currentNode.nodeprint())
       while currentNode != None:
          currentNode = currentNode.get_next()
          if currentNode != None:
-
             # print(currentNode.get_ctry_name())
+            currentNode.nodeprint()
 
    def size(self):
       aux = self.head
@@ -87,24 +95,21 @@ class LinkedList:
             self.remove(aux.get_ctry_name())
             print("Removed duplicate of",aux.get_ctry_name())
          aux = aux.get_next()
+         
+   def carregarDados(self):
+      with open('dados.csv', newline='') as csvfile:
+         spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+         for row in spamreader:
+            #Cada row = Cada país
+            row=', '.join(row)
+            row=row.split(';')
+            aux = l.add(row[0],row[1])
+            for n in range(2,len(row)):
+               #Cada n = index de celula de pops
+               aux.get_ctry_pop()[1960+n-2] = row[n]
 
 
 
 if __name__ == "__main__": 
    l = LinkedList()
-
-   #Ler e inserir os dados
-   with open('dados.csv', newline='') as csvfile:
-      spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-      for row in spamreader:
-         # print(', '.join(row))
-         row=', '.join(row)
-         row=row.split(';')
-         l.add(row[0],row[1])
-         for n in range(0,len(row)):
-            break
-
-         #Cada row = Cada país
-      l.print_list()
-
-
+   l.carregarDados()
