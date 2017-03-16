@@ -137,3 +137,85 @@ class AVLTree():
     def remove(self,ctry_name):
         if self.node != None:
             if self.node.ctry_name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     def logical_predecessor(self, node):
+        
+        node = node.leftChild.node 
+        if node != None: 
+            while node.rightChild != None:
+                if node.rightChild.node == None: 
+                    return node 
+                else: 
+                    node = node.rightChild.node  
+        return node 
+
+
+
+
+    def logical_successor(self, node):
+        
+        node = node.rightChild.node  
+        if node != None: # just a sanity check  
+            
+            while node.leftChild != None:
+                debug("LS: traversing: " + str(node.key))
+                if node.leftChild.node == None: 
+                    return node 
+                else: 
+                    node = node.leftChild.node  
+        return node 
+
+    def check_balanced(self):
+        if self == None or self.node == None: 
+            return True
+        
+        # We always need to make sure we are balanced 
+        self.update_heights()
+        self.update_balances()
+        return ((abs(self.balance) < 2) and self.node.leftChild.check_balanced() and self.node.rightChild.check_balanced())  
+        
+    def inorder_traverse(self):
+        if self.node == None:
+            return [] 
+        
+        inlist = [] 
+        l = self.node.leftChild.inorder_traverse()
+        for i in l: 
+            inlist.append(i) 
+        #em ordem por nome do pais mas tmb pode ser pelo codigo
+        inlist.append(self.node.ctry_name)
+
+        l = self.node.rightChild.inorder_traverse()
+        for i in l: 
+            inlist.append(i) 
+    
+        return inlist
+
+
+
+
+
+
+
+
+
+
+
+
+if __name__ == '__main__':
+
+    #gerar uma arvore
+    a = AVLTree()
