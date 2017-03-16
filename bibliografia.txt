@@ -1,6 +1,7 @@
 -- Sites usados para bibliografia --
 
 LinkedList:
+https://www.tutorialspoint.com/python/python_lists.htm
 
 BST:
 
