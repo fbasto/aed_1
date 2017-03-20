@@ -230,10 +230,7 @@ class AVLTree:
             self.node.leftChild.find(ctry_name)
         elif ctry_name > self.node.ctry_name:
             self.node.rightChild.find(ctry_name) 
-        if self.node.ctry_name == ctry_name:
-            return self.node
-        return None
-
+        return self.node
 
 
     def carregarDados(self):
@@ -250,7 +247,7 @@ class AVLTree:
             for n in range(2,len(row)):
                #Cada n = index de celula de pops
                aux.get_ctry_pop()[1960+n-2] = row[n]
-            #self.display()
+            self.display()
 
 
     def display(self, level=0, pref=''):
