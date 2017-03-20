@@ -11,7 +11,6 @@ class Node:
       self.ctry_name = init_ctry_name
       self.ctry_code = init_ctry_code
       self.ctry_pop = {} 
-      self.height=0   
       for i in range(0,57):
          self.ctry_pop[1960+i] = None
       self.rightChild= None
@@ -58,18 +57,20 @@ class AVLTree:
         newnode = Node(init_ctry_name, init_ctry_code)
 
         if tree == None:
+            print("Inserir")
             self.node = newnode
             self.node.leftChild = AVLTree()
             self.node.rightChild = AVLTree()
-            return self.node
-
+            print(type(self.node))
         elif init_ctry_name < tree.ctry_name:
+            print("Nome e menor")
             self.node.leftChild.insert(init_ctry_name, init_ctry_code)
-        elif init_ctry_name < tree.ctry_name:
-            self.node.leftChild.insert(init_ctry_name, init_ctry_code)
+        elif init_ctry_name > tree.ctry_name:
+            print("MAIOR!!!")
+            self.node.rightChild.insert(init_ctry_name, init_ctry_code)
 
         self.rebalance()
-
+        return self.node
 
     def rebalance(self):
         self.update_heights(False)
@@ -220,15 +221,18 @@ class AVLTree:
 
 
     def find(self,ctry_name):
+        print("Pesquisa")
+        print(ctry_name)
         if self.node == None:
-            return
+            print("Nao encontrado")
+            return None
         elif ctry_name < self.node.ctry_name:
             self.node.leftChild.find(ctry_name)
         elif ctry_name > self.node.ctry_name:
             self.node.rightChild.find(ctry_name) 
-        elif self.node.ctry_name == ctry_name:
+        if self.node.ctry_name == ctry_name:
             return self.node
-
+        return None
 
 
 
@@ -239,12 +243,29 @@ class AVLTree:
             #Cada row = Cada país
             row=', '.join(row)
             row=row.split(';')
-            aux = t.insert(row[0],row[1])
+            print(row[0])
+            print(row[1])
+            aux = self.insert(row[0],row[1])
+            print(type(aux))
             for n in range(2,len(row)):
                #Cada n = index de celula de pops
                aux.get_ctry_pop()[1960+n-2] = row[n]
+            #self.display()
 
 
+    def display(self, level=0, pref=''):
+        '''
+        Display the whole tree. Uses recursive def.
+        TODO: create a better display using breadth-first search
+        '''        
+        self.update_heights()  # Must update heights before balances 
+        self.update_balances()
+        if(self.node != None): 
+            print ('-' * level * 2, pref, self.node.ctry_name, "[" + str(self.height) + ":" + str(self.balance) + "]", 'L' if self.is_leaf() else ' ')
+            if self.node.leftChild != None: 
+                self.node.leftChild.display(level + 1, '<')
+            if self.node.leftChild != None:
+                self.node.rightChild.display(level + 1, '>')
 
 if __name__ == "__main__": 
    t = AVLTree()
@@ -259,6 +280,8 @@ if __name__ == "__main__":
          start=time.time()
          if(usercrit == 1):
             aux = t.find(usertext)
+            print(type(aux))
+            print(aux.ctry_name)
          if(usercrit == 2):
             aux = t.findCode(usertext)
          if(aux != None):
