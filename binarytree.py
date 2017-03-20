@@ -95,6 +95,18 @@ class BinaryTree():
          self.node.rightChild.find(ctry_name) 
       return self.node
 
+   def traverse(self, visit, order='pre'):
+      if order == 'pre':
+         visit(self.node)
+      if self.node.leftChild.node is not None:
+         self.node.leftChild.traverse(visit, order)
+      if order == 'in':
+         visit(self.node)
+      if self.node.rightChild.node is not None:
+         self.node.rightChild.traverse(visit, order)
+      if order == 'post':
+         visit(self.node)
+
    def carregarDados(self):
       with open('dados.csv', newline='') as csvfile:
          spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
@@ -113,6 +125,7 @@ if __name__ == "__main__":
    bts = BinaryTree()
    timer = False
    bts.carregarDados()
+   bts.traverse(print,'in')
    while(True):
       print("\nTemporizador de operações:",timer)
       userop = eval(input("1-Pesquisa\n2-Insercao\n3-Edicao\n4-Remocao\n5-Fechar\n6-Ligar/Desligar temporizador de operações\n"))
