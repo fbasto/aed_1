@@ -4,6 +4,7 @@ LinkedList:
 https://www.tutorialspoint.com/python/python_lists.htm
 
 BST:
+https://pythonhelp.wordpress.com/2015/01/19/arvore-binaria-de-busca-em-python/
 
 AVL:
 
