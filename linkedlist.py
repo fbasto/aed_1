@@ -115,7 +115,7 @@ class LinkedList:
             #Cada row = Cada país
             row=', '.join(row)
             row=row.split(';')
-            aux = l.add(row[0],row[1])
+            aux = self.add(row[0],row[1])
             for n in range(2,len(row)):
                #Cada n = index de celula de pops
                aux.get_ctry_pop()[1960+n-2] = row[n]
@@ -197,7 +197,7 @@ if __name__ == "__main__":
          else:
             timer = False
       if(userop == 7):
-         carregarDados()
+         l.carregarDados()
 
 
 

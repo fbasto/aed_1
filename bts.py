@@ -210,7 +210,7 @@ if __name__ == "__main__":
          else:
             timer = False
       if(userop == 7):
-         carregarDados()
+         l.carregarDados()
 
    
    
