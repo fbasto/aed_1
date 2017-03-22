@@ -229,6 +229,21 @@ class AVLTree:
         else:
             return self.node
 
+    def findCode(self,ctry_code):
+        if self.node == None:
+            return None
+        if ctry_code < self.node.ctry_code:
+            if self.node.leftChild != None:
+                return self.node.leftChild.findCode(ctry_code)
+            else:
+                return None
+        elif ctry_code > self.node.ctry_code:
+            if self.node.rightChild != None:
+                return self.node.rightChild.findCode(ctry_code)
+            else:
+                return None
+        else:
+            return self.node
 
     def carregarDados(self):
       with open('dados.csv', newline='') as csvfile:
