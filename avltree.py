@@ -1,6 +1,5 @@
 import csv
 import time
-outputdebug = False 
 
 def debug(msg):
     if outputdebug:
@@ -12,7 +11,7 @@ class Node:
       self.ctry_code = init_ctry_code
       self.ctry_pop = {} 
       for i in range(0,57):
-         self.ctry_pop[1960+i] = None
+         self.ctry_pop[1960+i] = ''
       self.rightChild= None
       self.leftChild=None
 
@@ -57,16 +56,12 @@ class AVLTree:
         newnode = Node(init_ctry_name, init_ctry_code)
 
         if tree == None:
-            print("Inserir")
             self.node = newnode
             self.node.leftChild = AVLTree()
             self.node.rightChild = AVLTree()
-            print(type(self.node))
         elif init_ctry_name < tree.ctry_name:
-            print("Nome e menor")
             self.node.leftChild.insert(init_ctry_name, init_ctry_code)
         elif init_ctry_name > tree.ctry_name:
-            print("MAIOR!!!")
             self.node.rightChild.insert(init_ctry_name, init_ctry_code)
 
         self.rebalance()
@@ -218,19 +213,21 @@ class AVLTree:
     
         return inlist
 
-
-
     def find(self,ctry_name):
-        print("Pesquisa")
-        print(ctry_name)
         if self.node == None:
-            print("Nao encontrado")
             return None
-        elif ctry_name < self.node.ctry_name:
-            self.node.leftChild.find(ctry_name)
+        if ctry_name < self.node.ctry_name:
+            if self.node.leftChild != None:
+                return self.node.leftChild.find(ctry_name)
+            else:
+                return None
         elif ctry_name > self.node.ctry_name:
-            self.node.rightChild.find(ctry_name) 
-        return self.node
+            if self.node.rightChild != None:
+                return self.node.rightChild.find(ctry_name)
+            else:
+                return None
+        else:
+            return self.node
 
 
     def carregarDados(self):
@@ -240,14 +237,12 @@ class AVLTree:
             #Cada row = Cada país
             row=', '.join(row)
             row=row.split(';')
-            print(row[0])
-            print(row[1])
             aux = self.insert(row[0],row[1])
-            print(type(aux))
+            no = self.find(row[0])
             for n in range(2,len(row)):
                #Cada n = index de celula de pops
-               aux.get_ctry_pop()[1960+n-2] = row[n]
-            self.display()
+               no.get_ctry_pop()[1960+n-2] = row[n]
+            #self.display()
 
 
     def display(self, level=0, pref=''):
@@ -277,12 +272,12 @@ if __name__ == "__main__":
          start=time.time()
          if(usercrit == 1):
             aux = t.find(usertext)
-            print(type(aux))
-            print(aux.ctry_name)
          if(usercrit == 2):
             aux = t.findCode(usertext)
          if(aux != None):
             aux.nodeprint()
+         else:
+             print("Nao existe")
          if(timer is True):
             end=time.time()
             print("Operacao demorou: %.10f segundos" %(end-start))
@@ -330,7 +325,7 @@ if __name__ == "__main__":
             start=time.time()
             aux = t.find(usertext)
             if(aux != None):
-               aux.get_ctry_pop()[usertext2] = None
+               aux.get_ctry_pop()[usertext2] = ''
             if(timer is True):
                end=time.time()
                print("Operacao demorou: %.10f segundos" %(end-start))
