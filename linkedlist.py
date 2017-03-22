@@ -186,7 +186,7 @@ if __name__ == "__main__":
             start=time.time()
             aux = l.find(usertext)
             if(aux != None):
-               aux.get_ctry_pop()[usertext2] = None
+               aux.get_ctry_pop()[usertext2] = ''
             if(timer is True):
                end=time.time()
                print("Operacao demorou: %.10f segundos" %(end-start))
