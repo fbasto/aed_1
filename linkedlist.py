@@ -125,10 +125,9 @@ class LinkedList:
 if __name__ == "__main__": 
    l = LinkedList()
    timer = False
-   l.carregarDados()
    while(True):
       print("\nTemporizador de operações:",timer)
-      userop = eval(input("1-Pesquisa\n2-Insercao\n3-Edicao\n4-Remocao\n5-Fechar\n6-Ligar/Desligar temporizador de operações\n"))
+      userop = eval(input("1-Pesquisa\n2-Insercao\n3-Edicao\n4-Remocao\n5-Fechar\n6-Ligar/Desligar temporizador de operações\n7-Carregar Dados\n"))
       if(userop == 1):  #PESQUISA
          usercrit = eval(input("1-Pesquisa por nome\n2-Pesquisa por sigla\n"))
          usertext = input("Inserir palavra: ")
@@ -197,6 +196,8 @@ if __name__ == "__main__":
             timer = True
          else:
             timer = False
+      if(userop == 7):
+         carregarDados()
 
 
 
