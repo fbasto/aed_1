@@ -352,7 +352,7 @@ if __name__ == "__main__":
          # else:
          #    timer = False
       if(userop == 7):
-         l.carregarDados()
+         t.carregarDados()
    end=time.time()
    print("Operacao demorou: %.10f segundos" %(end-start))
 
