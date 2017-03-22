@@ -144,7 +144,7 @@ if __name__ == "__main__":
    bts.printTree()
    start = time.time()
    while(True):
-      print("\nTemporizador de operações:",timer)
+      # print("\nTemporizador de operações:",timer)
       userop = eval(input("1-Pesquisa\n2-Insercao\n3-Edicao\n4-Remocao\n5-Fechar\n6-Ligar/Desligar temporizador de operações\n7-Carregar Dados\n"))
       if(userop == 1):  #PESQUISA
          usercrit = eval(input("1-Pesquisa por nome\n2-Pesquisa por sigla\n"))
@@ -205,7 +205,7 @@ if __name__ == "__main__":
             #    print("Operacao demorou: %.10f segundos" %(end-start))
       if(userop == 5):
          break
-      if(userop == 6):
+      # if(userop == 6):
          # if(timer is False):
          #    timer = True
          # else:
