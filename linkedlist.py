@@ -7,7 +7,7 @@ class Node:
       self.ctry_code = init_ctry_code
       self.ctry_pop = {}
       for i in range(0,57):
-         self.ctry_pop[1960+i] = None
+         self.ctry_pop[1960+i] = ''
       self.next = None
    def get_ctry_name(self):
       return self.ctry_name
@@ -186,7 +186,7 @@ if __name__ == "__main__":
             start=time.time()
             aux = l.find(usertext)
             if(aux != None):
-               aux.get_ctry_pop()[usertext2] = None
+               aux.get_ctry_pop()[usertext2] = ''
             if(timer is True):
                end=time.time()
                print("Operacao demorou: %.10f segundos" %(end-start))

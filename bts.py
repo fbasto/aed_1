@@ -7,7 +7,7 @@ class BinaryTree():
       self.ctry_code = init_ctry_code
       self.ctry_pop = {} 
       for i in range(0,57):
-         self.ctry_pop[1960+i] = None
+         self.ctry_pop[1960+i] = ''
       self.rightChild= None
       self.leftChild=None
 
@@ -40,6 +40,20 @@ class BinaryTree():
       elif ctry_name > self.ctry_name:
          if self.rightChild != None:
             return self.rightChild.find(ctry_name)
+         else:
+            return None
+      else:
+         return self
+
+   def findCode(self,ctry_code):
+      if ctry_code < self.ctry_code:
+         if self.leftChild != None:
+            return self.leftChild.findCode(ctry_code)
+         else:
+            return None
+      elif ctry_code > self.ctry_code:
+         if self.rightChild != None:
+            return self.rightChild.findCode(ctry_code)
          else:
             return None
       else:
@@ -186,7 +200,7 @@ if __name__ == "__main__":
             start=time.time()
             aux = bts.find(usertext)
             if(aux != None):
-               aux.get_ctry_pop()[usertext2] = None
+               aux.get_ctry_pop()[usertext2] = ''
             if(timer is True):
                end=time.time()
                print("Operacao demorou: %.10f segundos" %(end-start))

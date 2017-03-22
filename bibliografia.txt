@@ -1,5 +1,7 @@
 -- Sites usados para bibliografia --
 
+http://bigocheatsheet.com/
+
 LinkedList:
 https://www.tutorialspoint.com/python/python_lists.htm
 
