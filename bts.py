@@ -7,7 +7,7 @@ class BinaryTree():
       self.ctry_code = init_ctry_code
       self.ctry_pop = {} 
       for i in range(0,57):
-         self.ctry_pop[1960+i] = None
+         self.ctry_pop[1960+i] = ''
       self.rightChild= None
       self.leftChild=None
 

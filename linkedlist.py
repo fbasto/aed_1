@@ -7,7 +7,7 @@ class Node:
       self.ctry_code = init_ctry_code
       self.ctry_pop = {}
       for i in range(0,57):
-         self.ctry_pop[1960+i] = None
+         self.ctry_pop[1960+i] = ''
       self.next = None
    def get_ctry_name(self):
       return self.ctry_name
