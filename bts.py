@@ -45,6 +45,20 @@ class BinaryTree():
       else:
          return self
 
+   def findCode(self,ctry_code):
+      if ctry_code < self.ctry_code:
+         if self.leftChild != None:
+            return self.leftChild.findCode(ctry_code)
+         else:
+            return None
+      elif ctry_code > self.ctry_code:
+         if self.rightChild != None:
+            return self.rightChild.findCode(ctry_code)
+         else:
+            return None
+      else:
+         return self
+
 
    def add(self,init_ctry_name, init_ctry_code):
       no = BinaryTree(init_ctry_name, init_ctry_code)
