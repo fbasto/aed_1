@@ -249,7 +249,7 @@ class AVLTree:
     def carregarDados(self):
       with open('dados.csv', newline='') as csvfile:
          spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-         f = open('edicao264.txt', 'w')
+         f = open('remocao264.txt', 'w')
          num = 0
          for row in spamreader:
             #Cada row = Cada país
@@ -258,9 +258,7 @@ class AVLTree:
             aux = self.insert(row[0],row[1])
             no = self.find(row[0])
             num = num + 1
-            f.write("3\n%s\n" %row[0])
-            f.write("%d\n" %randint(1960,2016))
-            f.write("%d\n" %randint(0,100))
+            f.write("4\n1\n%s\n" %row[0])
             for n in range(2,len(row)):
                #Cada n = index de celula de pops
                no.get_ctry_pop()[1960+n-2] = row[n]
