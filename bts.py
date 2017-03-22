@@ -155,6 +155,7 @@ if __name__ == "__main__":
    # timer = False
    bts.remove("Nome")
    bts.printTree()
+   bts.carregarDados()
    start = time.time()
    while(True):
       # print("\nTemporizador de operações:",timer)
@@ -186,6 +187,7 @@ if __name__ == "__main__":
          #    print("Operacao demorou: %.10f segundos" %(end-start))
 
       if(userop == 3):  #EDICAO  DE PERCENTAGEM
+
          usertext = input("Indicar nome do país de que se pretende alterar a percentagem: ")
          usertext2 = eval(input("Indicar ano que se pretende alterar (1960 a 2016 inclusive): "))
          usertext3 = eval(input("Indicar valor: "))
@@ -224,9 +226,15 @@ if __name__ == "__main__":
          # else:
          #    timer = False
       if(userop == 7):
+         cdstart = time.time()
          bts.carregarDados()
+         cdend=time.time()
+         print("Carregar dados demorou: %.10f segundos" %(cdend-cdstart))
       if(userop == 8):
+         cdstart = time.time()
          bts.carregarDados2()
+         cdend=time.time()
+         print("Carregar metade dos dados demorou: %.10f segundos" %(cdend-cdstart))
    end=time.time()
    print("Operacao demorou: %.10f segundos" %(end-start))
    

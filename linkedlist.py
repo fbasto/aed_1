@@ -137,6 +137,7 @@ class LinkedList:
 if __name__ == "__main__": 
 	l = LinkedList()
 	# timer = False
+	l.carregarDados()
 	start=time.time()
 	while(True):
 		# print("\nTemporizador de operações:",timer)
@@ -207,9 +208,15 @@ if __name__ == "__main__":
 			# else:
 			#    timer = False
 		if(userop == 7):
+			cdstart = time.time()
 			l.carregarDados()
+			cdend=time.time()
+			print("Carregar dados demorou: %.10f segundos" %(cdend-cdstart))
 		if(userop == 8):
+			cdstart = time.time()
 			l.carregarDados2()
+			cdend=time.time()
+			print("Carregar metade dos dados demorou: %.10f segundos" %(cdend-cdstart))
 	end=time.time()
 	print("Operacao demorou: %.10f segundos" %(end-start))
 
