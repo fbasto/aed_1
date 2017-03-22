@@ -269,6 +269,19 @@ class AVLTree:
          f.close()
          print(num)
 
+    def carregarDados2(self):
+      with open('dados132.csv', newline='') as csvfile:
+         spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+         for row in spamreader:
+            #Cada row = Cada país
+            row=', '.join(row)
+            row=row.split(';')
+            aux = self.insert(row[0],row[1])
+            no = self.find(row[0])
+            for n in range(2,len(row)):
+               #Cada n = index de celula de pops
+               no.get_ctry_pop()[1960+n-2] = row[n]
+            #self.display()
 
     def display(self, level=0, pref=''):
         '''
@@ -287,10 +300,11 @@ class AVLTree:
 if __name__ == "__main__": 
    t = AVLTree()
    # timer = False
+   t.carregarDados()
    start=time.time()
    while(True):
       # print("\nTemporizador de operações:",timer)
-      userop = eval(input("1-Pesquisa\n2-Insercao\n3-Edicao\n4-Remocao\n5-Fechar\n6-Ligar/Desligar temporizador de operações\n7-Carregar Dados\n"))
+      userop = eval(input("1-Pesquisa\n2-Insercao\n3-Edicao\n4-Remocao\n5-Fechar\n6-Ligar/Desligar temporizador de operações\n7-Carregar Dados\n8-Carregar metade dos Dados\n"))
       if(userop == 1):  #PESQUISA
          usercrit = eval(input("1-Pesquisa por nome\n2-Pesquisa por sigla\n"))
          usertext = input("Inserir palavra: ")
@@ -362,7 +376,15 @@ if __name__ == "__main__":
          # else:
          #    timer = False
       if(userop == 7):
+         cdstart = time.time()
          t.carregarDados()
+         cdend=time.time()
+         print("Carregar dados demorou: %.10f segundos" %(cdend-cdstart))
+      if(userop == 8):
+         cdstart = time.time()
+         t.carregarDados2()
+         cdend=time.time()
+         print("Carregar metade dos dados demorou: %.10f segundos" %(cdend-cdstart))
    end=time.time()
    print("Operacao demorou: %.10f segundos" %(end-start))
 
