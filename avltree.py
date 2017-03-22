@@ -1,5 +1,6 @@
 import csv
 import time
+from random import randint
 
 def debug(msg):
     if outputdebug:
@@ -248,16 +249,25 @@ class AVLTree:
     def carregarDados(self):
       with open('dados.csv', newline='') as csvfile:
          spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+         f = open('teste75.txt', 'w')
+         f.write("7\n")
+         num = 0
          for row in spamreader:
             #Cada row = Cada país
             row=', '.join(row)
             row=row.split(';')
             aux = self.insert(row[0],row[1])
             no = self.find(row[0])
+            if(randint(0,101) >= 25):
+                num = num + 1
+                f.write("1\n1\n%s\n" %row[0])
             for n in range(2,len(row)):
                #Cada n = index de celula de pops
                no.get_ctry_pop()[1960+n-2] = row[n]
             #self.display()
+         f.write("5")
+         f.close()
+         print(num)
 
 
     def display(self, level=0, pref=''):
