@@ -145,7 +145,7 @@ class AVLTree:
                     self.node = self.node.leftChild.node
 
                 else:
-                    ŕeplacement = self.logical_successor(self.node)
+                    replacement = self.logical_successor(self.node)
                     if replacement != None:
                         self.node.ctry_name = replacement.ctry_name
 
@@ -181,7 +181,6 @@ class AVLTree:
         if node != None: # just a sanity check  
             
             while node.leftChild != None:
-                debug("LS: traversing: " + str(node.key))
                 if node.leftChild.node == None: 
                     return node 
                 else: 
@@ -249,7 +248,7 @@ class AVLTree:
     def carregarDados(self):
       with open('dados.csv', newline='') as csvfile:
          spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-         f = open('remocao264.txt', 'w')
+         #f = open('remocao264.txt', 'w')
          num = 0
          for row in spamreader:
             #Cada row = Cada país
@@ -257,13 +256,13 @@ class AVLTree:
             row=row.split(';')
             aux = self.insert(row[0],row[1])
             no = self.find(row[0])
-            num = num + 1
-            f.write("4\n1\n%s\n" %row[0])
+            #num = num + 1
+            #f.write("4\n1\n%s\n" %row[0])
             for n in range(2,len(row)):
                #Cada n = index de celula de pops
                no.get_ctry_pop()[1960+n-2] = row[n]
             #self.display()
-         f.close()
+         #f.close()
 
     def carregarDados2(self):
       with open('dados132.csv', newline='') as csvfile:
