@@ -195,8 +195,8 @@ if __name__ == "__main__":
 				usertext2 = eval(input("Indicar o ano do qual se pretende remover uma percentagem: "))
 				# start=time.time()
 				aux = l.find(usertext)
-			if(aux != None):
-				aux.get_ctry_pop()[usertext2] = ''
+				if(aux != None):
+					aux.get_ctry_pop()[usertext2] = ''
 				# if(timer is True):
 				#    end=time.time()
 				#    print("Operacao demorou: %.10f segundos" %(end-start))
