@@ -331,7 +331,7 @@ if __name__ == "__main__":
    nametree = AVLTree()
    siglatree = AVLTree()
    
-   carregardados()
+   carregarDados()
 
    # timer = False
    start=time.time()
