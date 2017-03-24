@@ -2,27 +2,25 @@ import csv
 import time
 
 class Node:
-   def __init__(self, init_ctry_name, init_ctry_code):
-      self.ctry_name = init_ctry_name
-      self.ctry_code = init_ctry_code
-      self.ctry_pop = {}
-      for i in range(0,57):
-         self.ctry_pop[1960+i] = ''
+   def __init__(self, newinfo):
+   	  self.info = newinfo
+   	  self.auxName = None
+   	  self.auxCode = None
+   	  self.aux
+      # self.ctry_name = init_ctry_name
+      # self.ctry_code = init_ctry_code
+      # self.ctry_pop = {}
+      # for i in range(0,57):
+      #    self.ctry_pop[1960+i] = ''
       self.next = None
-   def get_ctry_name(self):
-      return self.ctry_name
-   def get_ctry_code(self):
-      return self.ctry_code
-   def get_ctry_pop(self):
-      return self.ctry_pop
+   def get_info(self):
+      return self.info
    def get_next(self):
          return self.next
-   def set_ctry_name(self, new_ctry_name):
-      self.ctry_name = newctry_name
-   def set_ctry_code(self, new_ctry_code):
-      self.ctry_code = newctry_code
+   def set_info(self, newinfo):
+      self.info = newinfo
    def set_next(self, new_next):
-      self.next = new_next   
+      self.next = new_next
    def nodeprint(self):
        print(self.ctry_name,self.ctry_code,end=' ')
        print(self.ctry_pop)
@@ -34,8 +32,8 @@ class LinkedList:
       self.head = None
    def is_empty(self):
       return self.head == None
-   def add(self, ctry_name, ctry_code):
-      temp = Node(ctry_name, ctry_code)
+   def add(self, info):
+      temp = Node(info)
       temp.set_next(self.head)
       self.head = temp
       return self.head     
@@ -135,7 +133,9 @@ class LinkedList:
 
 
 if __name__ == "__main__": 
-	l = LinkedList()
+	lname = LinkedList()
+	lcode = LinkedList()
+	lpop = LinkedList()
 	# timer = False
 	l.carregarDados()
 	start=time.time()
