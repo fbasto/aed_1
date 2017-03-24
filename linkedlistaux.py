@@ -21,7 +21,7 @@ class PopNode:
    def set_next(self, new_next):
       self.next = new_next
    def nodeprint(self):
-       print(self.year,self.percentpop,end=' ')
+       print("(",self.year,"=",self.percentpop,")",end=' ')
 
 
 class AuxiliarLinkedList:
