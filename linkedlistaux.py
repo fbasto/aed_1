@@ -1,36 +1,44 @@
 class PopNode:
-   def __init__(self, newyear, newinfo):
+   def __init__(self, newyear, newpop):
       self.year = newyear
-      self.percentpop = newinfo
+      self.percentpop = newpop
       # self.ctry_name = init_ctry_name
       # self.ctry_code = init_ctry_code
       # self.ctry_pop = {}
       # for i in range(0,57):
       #    self.ctry_pop[1960+i] = ''
       self.next = None
-   def get_info(self):
+   def get_pop(self):
       return self.percentpop
+   def get_year(self):
+      return self.year
    def get_next(self):
       return self.next
-   def set_info(self, newinfo):
+   def set_pop(self, newinfo):
       self.percentpop = newinfo
+   def set_year(self, newinfo):
+      self.year = newinfo
    def set_next(self, new_next):
       self.next = new_next
    def nodeprint(self):
-       print(self.newyear,self.ctry_pop)
-       # print(self.ctry_pop)
+       print(self.newyear,self.percentpop)
 
 
-class LinkedList:
+class AuxiliarLinkedList:
    def __init__(self):
       self.head = None
+      for x in range(0,57):
+         self.add(2016-x,'')
+
    def is_empty(self):
       return self.head == None
-   def add(self, percentpop):
-      temp = PopNode(percentpop)
+
+   def add(self, newyear, newpercent):
+      temp = PopNode(year, newpercent)
       temp.set_next(self.head)
       self.head = temp
-      return self.head     
+      return self.head
+
    def remove(self, item):
       current = self.head
       previous = None
@@ -69,15 +77,16 @@ class LinkedList:
          contador=contador+1
       return contador
 
+# Find: Inserir ano e ele retorna o nó com esse ano
    def find(self, elem):
       aux = self.head
-      while(aux.get_info() != elem and aux.get_next() != None):
+      while(aux.get_year() != elem and aux.get_next() != None):
          aux = aux.get_next()
-      if(aux.get_info() == elem):
-         print("Encontrou", elem)
+      if(aux.get_year() == elem):
+         print("Encontrou o ano", elem)
          return aux
       else:
-         print(elem,"não foi encontrado")
+         print("O ano",elem,"não foi encontrado")
          return None
 
    def removeDuplicates(self):
