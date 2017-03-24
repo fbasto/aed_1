@@ -287,7 +287,7 @@ def createNode(key1,key2):
 
 
 
-def carregardados():
+def carregarDados():
     with open('dados.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
         #f = open('remocao264.txt', 'w')
@@ -306,10 +306,23 @@ def carregardados():
             aux1 = siglatree.insert(aux_sig)   
 
 
-
-
-
-
+def carregarDados2():
+    with open('dados132.csv', newline='') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+        #f = open('remocao264.txt', 'w')
+        #num = 0
+        for row in spamreader:
+            #Cada row = Cada país
+            row=', '.join(row)
+            row=row.split(';')
+            aux_name,aux_sig = createNode(row[0],row[1])
+            for n in range(2,len(row)):
+                #Cada n = index de celula de pops
+                #no.get_ctry_pop()[1960+n-2] = row[n]
+                aux_name.list.find(1960+n-2).set_pop(row[n])
+                #self.display()
+            aux = nametree.insert(aux_name)
+            aux1 = siglatree.insert(aux_sig)   
 
 
 

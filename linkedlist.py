@@ -1,29 +1,33 @@
 import csv
 import time
+from linkedlistaux import *
 
 class Node:
-   def __init__(self, newinfo):
-   	  self.info = newinfo
-   	  self.auxName = None
-   	  self.auxCode = None
-   	  self.aux
-      # self.ctry_name = init_ctry_name
-      # self.ctry_code = init_ctry_code
-      # self.ctry_pop = {}
-      # for i in range(0,57):
-      #    self.ctry_pop[1960+i] = ''
-      self.next = None
-   def get_info(self):
-      return self.info
-   def get_next(self):
-         return self.next
-   def set_info(self, newinfo):
-      self.info = newinfo
-   def set_next(self, new_next):
-      self.next = new_next
-   def nodeprint(self):
-       print(self.ctry_name,self.ctry_code,end=' ')
-       print(self.ctry_pop)
+	def __init__(self, info):
+		self.key = info
+		self.pointer = None
+		self.list = None
+		self.next = None
+		# self.ctry_name = init_ctry_name
+		# self.ctry_code = init_ctry_code
+		# self.ctry_pop = {}
+		# for i in range(0,57):
+		#    self.ctry_pop[1960+i] = ''
+	def get_key(self):
+		return self.key
+	def get_next(self):
+		return self.next
+	def set_key(self, newinfo):
+		self.key = newinfo
+	def set_next(self, new_next):
+		self.next = new_next
+	def nodeprint(self,usercrit):
+		if usercrit == 1:
+			print(self.key,self.pointer.key,end=' ')
+			print(self.list.print_list())
+		elif usercrit == 2:
+			print(self.pointer.key,self.key,end=' ')
+			print(self.pointer.list.print_list())
 
          
 
@@ -33,16 +37,17 @@ class LinkedList:
    def is_empty(self):
       return self.head == None
    def add(self, info):
-      temp = Node(info)
+      temp = info
       temp.set_next(self.head)
       self.head = temp
+      # print("added",temp.get_key())
       return self.head     
    def remove(self, item):
       current = self.head
       previous = None
       found = False
       while not found:
-         if current.get_ctry_name() == item:
+         if current.get_key() == item:
             found = True      
          else:
             previous = current
@@ -54,17 +59,14 @@ class LinkedList:
       if(found == False):
          print("O pais",elem,"não foi encontrado")
    
-   def print_list(self):
+   def print_list(self,usercrit):
       print("PRINTING LINKED LIST")
       currentNode = self.head
       if currentNode == None:
-         return 0
-      print(currentNode.nodeprint())
+         return 0     
       while currentNode != None:
+         currentNode.nodeprint(usercrit)
          currentNode = currentNode.get_next()
-         if currentNode != None:
-            # print(currentNode.get_ctry_name())
-            currentNode.nodeprint()
 
    def size(self):
       aux = self.head
@@ -76,68 +78,62 @@ class LinkedList:
       return contador
 
    def find(self, elem):
-      aux = self.head
-      while(aux.get_ctry_name() != elem and aux.get_next() != None):
-         aux = aux.get_next()
-      if(aux.get_ctry_name() == elem):
-         print("Encontrou", elem)
-         return aux
-      else:
-         print("O pais",elem,"não foi encontrado")
-         return None
-   
-   def findCode(self, elem):
-      aux = self.head
-      while(aux.get_ctry_code() != elem and aux.get_next() != None):
-         aux = aux.get_next()
-      if(aux.get_ctry_code() == elem):
-         print("Encontrou ", elem)
-         return aux
-      else:
-         print("O codigo de pais",elem,"não foi encontrado")
-         return None
+      	aux = self.head
+      	while(aux.get_key() != elem and aux.get_next() != None):
+        	aux = aux.get_next()
+      	if(aux.get_key() == elem):
+        	print("Encontrou", elem)
+        	return aux
+      	else:
+        	print("O pais",elem,"não foi encontrado")
+        	return None
+
+def createNode(key1,key2): 
+    llist = AuxiliarLinkedList()
+    aux_name_node = Node(key1)
+    aux_sig_node = Node(key2)
+    aux_name_node.pointer = aux_sig_node
+    aux_name_node.list = llist 
+    aux_sig_node.pointer = aux_name_node
+    return aux_name_node,aux_sig_node
 
 
-   def removeDuplicates(self):
-      aux = self.head
-      while(aux.get_next() != None):
-         if(aux.get_ctry_name() == aux.get_next().get_ctry_name()):
-            self.remove(aux.get_ctry_name())
-            print("Removed duplicate of",aux.get_ctry_name())
-         aux = aux.get_next()
+def carregarDados():
+	with open('dados.csv', newline='') as csvfile:
+		spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+		for row in spamreader:
+			#Cada row = Cada país
+			row=', '.join(row)
+			row=row.split(';')
+			aux_name,aux_sig = createNode(row[0],row[1])
+			for n in range(2,len(row)):
+			#Cada n = index de celula de pops
+				aux_name.list.find(1960+n-2).set_pop(row[n])
+			aux = namelist.add(aux_name)
+			aux1 = siglalist.add(aux_sig)
 
-   def carregarDados(self):
-      with open('dados.csv', newline='') as csvfile:
-         spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-         for row in spamreader:
-            #Cada row = Cada país
-            row=', '.join(row)
-            row=row.split(';')
-            aux = self.add(row[0],row[1])
-            for n in range(2,len(row)):
-               #Cada n = index de celula de pops
-               aux.get_ctry_pop()[1960+n-2] = row[n]
-
-   def carregarDados2(self):
-      with open('dados132.csv', newline='') as csvfile:
-         spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-         for row in spamreader:
-            #Cada row = Cada país
-            row=', '.join(row)
-            row=row.split(';')
-            aux = self.add(row[0],row[1])
-            for n in range(2,len(row)):
-               #Cada n = index de celula de pops
-               aux.get_ctry_pop()[1960+n-2] = row[n]
+def carregarDados2():
+	with open('dados132.csv', newline='') as csvfile:
+		spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+		for row in spamreader:
+			#Cada row = Cada país
+			row=', '.join(row)
+			row=row.split(';')
+			aux_name,aux_sig = createNode(row[0],row[1])
+			for n in range(2,len(row)):
+			#Cada n = index de celula de pops
+				aux_name.list.find(1960+n-2).set_pop(row[n])
+			aux = namelist.add(aux_name)
+			aux1 = siglalist.add(aux_sig)
 
 
 
 if __name__ == "__main__": 
-	lname = LinkedList()
-	lcode = LinkedList()
-	lpop = LinkedList()
+	namelist = LinkedList()
+	siglalist = LinkedList()
+
 	# timer = False
-	l.carregarDados()
+	carregarDados()
 	start=time.time()
 	while(True):
 		# print("\nTemporizador de operações:",timer)
@@ -147,11 +143,11 @@ if __name__ == "__main__":
 			usertext = input("Inserir palavra: ")
 			# start=time.time()
 			if(usercrit == 1):
-				aux = l.find(usertext)
+				aux = namelist.find(usertext)
 			if(usercrit == 2):
-				aux = l.findCode(usertext)
+				aux = siglalist.find(usertext)
 			if(aux != None):
-				aux.nodeprint()
+				aux.nodeprint(usercrit)
 			# if(timer is True):
 			#    end=time.time()
 			#    print("Operacao demorou: %.10f segundos" %(end-start))
@@ -160,7 +156,9 @@ if __name__ == "__main__":
 			usertext = input("Indicar nome de país a inserir: ")
 			usertext2 = input("Indicar codigo de país a inserir: ")
 			# start=time.time()
-			l.add(usertext,usertext2)
+			aux_name,aux_sig = createNode(usertext,usertext2)
+			namelist.add(aux_name)
+			siglalist.add(aux_sig)
 			# if(usercrit == 1):
 			#    aux = l.add(usertext,usertext2)
 			#    for n in range(0,57):
@@ -175,9 +173,9 @@ if __name__ == "__main__":
 			usertext2 = eval(input("Indicar ano que se pretende alterar (1960 a 2016 inclusive): "))
 			usertext3 = eval(input("Indicar valor: "))
 			# start=time.time()
-			aux = l.find(usertext)
+			aux = namelist.find(usertext)
 			if(aux != None):
-				aux.get_ctry_pop()[usertext2] = usertext3
+				aux.list.find(usertext2).set_pop(usertext3)
 				# if(timer is True):
 				#    end=time.time()  
 				#    print("Operacao demorou: %.10f segundos" %(end-start))
@@ -186,7 +184,8 @@ if __name__ == "__main__":
 			if(usercrit == 1):
 				usertext = input("Indicar nome de país que se pretende remover: ")
 				# start=time.time()
-				l.remove(usertext)
+				siglalist.remove(namelist.find(usertext).pointer.key)
+				namelist.remove(usertext)
 				# if(timer is True):
 				#    end=time.time()
 				#    print("Operacao demorou: %.10f segundos" %(end-start))
@@ -194,9 +193,9 @@ if __name__ == "__main__":
 				usertext = input("Indicar nome do país do qual se pretende remover uma percentagem: ")
 				usertext2 = eval(input("Indicar o ano do qual se pretende remover uma percentagem: "))
 				# start=time.time()
-				aux = l.find(usertext)
+				aux = namelist.find(usertext)
 				if(aux != None):
-					aux.get_ctry_pop()[usertext2] = ''
+					aux.list.find(usertext2).set_pop('')
 				# if(timer is True):
 				#    end=time.time()
 				#    print("Operacao demorou: %.10f segundos" %(end-start))
