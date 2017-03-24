@@ -21,7 +21,7 @@ class PopNode:
    def set_next(self, new_next):
       self.next = new_next
    def nodeprint(self):
-       print(self.year,self.percentpop)
+       print(self.year,self.percentpop,end=' ')
 
 
 class AuxiliarLinkedList:
@@ -61,12 +61,10 @@ class AuxiliarLinkedList:
       currentNode = self.head
       if currentNode == None:
          return 0
-      print(currentNode.nodeprint())
+      # print(currentNode.nodeprint())
       while currentNode != None:
+         currentNode.nodeprint()
          currentNode = currentNode.get_next()
-         if currentNode != None:
-            # print(currentNode.get_ctry_name())
-            currentNode.nodeprint()
 
    def size(self):
       aux = self.head
