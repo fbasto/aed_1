@@ -2,17 +2,12 @@ import csv
 import time
 from random import randint
 
-def debug(msg):
-    if outputdebug:
-        print (msg)
 
 class Node:
-    def __init__(self, init_ctry_name, init_ctry_code):
-      self.ctry_name = init_ctry_name
-      self.ctry_code = init_ctry_code
-      self.ctry_pop = {} 
-      for i in range(0,57):
-         self.ctry_pop[1960+i] = ''
+    def __init__(self, info):
+      self.key=info 
+      self.pointer= None
+      self.list= None
       self.rightChild= None
       self.leftChild=None
 
@@ -29,7 +24,7 @@ class Node:
     def set_ctry_code(self, new_ctry_code):
       self.ctry_code = newctry_code
     def set_next(self, new_next):
-      self.next = new_next   
+      self.next = new_next
     def nodeprint(self):
        print(self.ctry_name,self.ctry_code,end=' ')
        print(self.ctry_pop)
@@ -51,22 +46,20 @@ class AVLTree:
     def is_leaf(self):
         return (self.height == 0)
 
-    def insert(self,init_ctry_name, init_ctry_code):
+    def insert(self,newnode):
         tree = self.node
-
-        newnode = Node(init_ctry_name, init_ctry_code)
-
         if tree == None:
             self.node = newnode
             self.node.leftChild = AVLTree()
             self.node.rightChild = AVLTree()
-        elif init_ctry_name < tree.ctry_name:
-            self.node.leftChild.insert(init_ctry_name, init_ctry_code)
-        elif init_ctry_name > tree.ctry_name:
-            self.node.rightChild.insert(init_ctry_name, init_ctry_code)
+        elif newnode.key< tree.key:
+            self.node.leftChild.insert(newnode)
+        elif newnode.key> tree.key:
+            self.node.rightChild.insert(newnode)
 
         self.rebalance()
         return self.node
+        
 
     def rebalance(self):
         self.update_heights(False)
@@ -107,7 +100,7 @@ class AVLTree:
         self.node = B
         B.leftChild.node = A
         A.rightChild.node = T
-    
+
     def update_heights(self, recurse=True):
         if not self.node == None:
             if recurse:
@@ -120,23 +113,23 @@ class AVLTree:
         else:
             self.height = -1
 
-    
+
     def update_balances(self, recurse=True):
-        if not self.node == None: 
-            if recurse: 
-                if self.node.leftChild != None: 
+        if not self.node == None:
+            if recurse:
+                if self.node.leftChild != None:
                     self.node.leftChild.update_balances()
                 if self.node.rightChild != None:
                     self.node.rightChild.update_balances()
 
-            self.balance = self.node.leftChild.height - self.node.rightChild.height 
-        else: 
+            self.balance = self.node.leftChild.height - self.node.rightChild.height
+        else:
             self.balance = 0
 
 
-    def remove(self,ctry_name):
+    def remove(self,key):
         if self.node != None:
-            if self.node.ctry_name == ctry_name:
+            if self.node.key == key:
                 if self.node.leftChild.node == None and self.node.rightChild.node == None:
                     self.node = None
                 elif self.node.leftChild.node == None:
@@ -147,16 +140,16 @@ class AVLTree:
                 else:
                     replacement = self.logical_successor(self.node)
                     if replacement != None:
-                        self.node.ctry_name = replacement.ctry_name
+                        self.node.key = replacement.key
 
-                        self.node.rightChild.remove(replacement.ctry_name)
-                
+                        self.node.rightChild.remove(replacement.key)
+
                 self.rebalance()
                 return
-            elif ctry_name < self.node.ctry_name:
-                self.node.leftChild.remove(ctry_name)
-            elif ctry_name > self.node.ctry_name:
-                self.node.rightChild.remove(ctry_name)
+            elif key < self.node.key:
+                self.node.leftChild.remove(key)
+            elif key > self.node.key:
+                self.node.rightChild.remove(key)
 
             self.rebalance()
         else:
@@ -164,72 +157,72 @@ class AVLTree:
 
 
     def logical_predecessor(self,node):
-        node = node.leftChild.node 
-        if node != None: 
+        node = node.leftChild.node
+        if node != None:
             while node.rightChild != None:
-                if node.rightChild.node == None: 
-                    return node 
-                else: 
-                    node = node.rightChild.node  
-        return node 
+                if node.rightChild.node == None:
+                    return node
+                else:
+                    node = node.rightChild.node
+        return node
 
 
 
 
     def logical_successor(self,node):
-        node = node.rightChild.node  
-        if node != None: # just a sanity check  
-            
+        node = node.rightChild.node
+        if node != None: # just a sanity check
+
             while node.leftChild != None:
-                if node.leftChild.node == None: 
-                    return node 
-                else: 
-                    node = node.leftChild.node  
-        return node 
+                if node.leftChild.node == None:
+                    return node
+                else:
+                    node = node.leftChild.node
+        return node
 
     def check_balanced(self):
-        if self == None or self.node == None: 
+        if self == None or self.node == None:
             return True
-        
-        # We always need to make sure we are balanced 
+
+        # We always need to make sure we are balanced
         self.update_heights()
         self.update_balances()
-        return ((abs(self.balance) < 2) and self.node.leftChild.check_balanced() and self.node.rightChild.check_balanced())  
-        
+        return ((abs(self.balance) < 2) and self.node.leftChild.check_balanced() and self.node.rightChild.check_balanced())
+
     def inorder_traverse(self):
         if self.node == None:
-            return [] 
-        
-        inlist = [] 
+            return []
+
+        inlist = []
         l = self.node.leftChild.inorder_traverse()
-        for i in l: 
-            inlist.append(i) 
+        for i in l:
+            inlist.append(i)
         #em ordem por nome do pais mas tmb pode ser pelo codigo
         inlist.append(self.node.ctry_name)
 
         l = self.node.rightChild.inorder_traverse()
-        for i in l: 
-            inlist.append(i) 
-    
+        for i in l:
+            inlist.append(i)
+
         return inlist
 
-    def find(self,ctry_name):
+    def find(self,key):
         if self.node == None:
             return None
-        if ctry_name < self.node.ctry_name:
+        if jey < self.node.key:
             if self.node.leftChild != None:
-                return self.node.leftChild.find(ctry_name)
+                return self.node.leftChild.find(key)
             else:
                 return None
-        elif ctry_name > self.node.ctry_name:
+        elif key > self.node.key:
             if self.node.rightChild != None:
-                return self.node.rightChild.find(ctry_name)
+                return self.node.rightChild.find(key)
             else:
                 return None
         else:
             return self.node
 
-    def findCode(self,ctry_code):
+    """def findCode(self,ctry_code):
         if self.node == None:
             return None
         if ctry_code < self.node.ctry_code:
@@ -244,26 +237,11 @@ class AVLTree:
                 return None
         else:
             return self.node
+    """
 
-    def carregarDados(self):
-      with open('dados.csv', newline='') as csvfile:
-         spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-         #f = open('remocao264.txt', 'w')
-         num = 0
-         for row in spamreader:
-            #Cada row = Cada país
-            row=', '.join(row)
-            row=row.split(';')
-            aux = self.insert(row[0],row[1])
-            no = self.find(row[0])
-            #num = num + 1
-            #f.write("4\n1\n%s\n" %row[0])
-            for n in range(2,len(row)):
-               #Cada n = index de celula de pops
-               no.get_ctry_pop()[1960+n-2] = row[n]
-            #self.display()
-         #f.close()
+    
 
+    """
     def carregarDados2(self):
       with open('dados132.csv', newline='') as csvfile:
          spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
@@ -277,25 +255,49 @@ class AVLTree:
                #Cada n = index de celula de pops
                no.get_ctry_pop()[1960+n-2] = row[n]
             #self.display()
-
+    """
     def display(self, level=0, pref=''):
         '''
         Display the whole tree. Uses recursive def.
         TODO: create a better display using breadth-first search
-        '''        
-        self.update_heights()  # Must update heights before balances 
+        '''
+        self.update_heights()  # Must update heights before balances
         self.update_balances()
-        if(self.node != None): 
+        if(self.node != None):
             print ('-' * level * 2, pref, self.node.ctry_name, "[" + str(self.height) + ":" + str(self.balance) + "]", 'L' if self.is_leaf() else ' ')
-            if self.node.leftChild != None: 
+            if self.node.leftChild != None:
                 self.node.leftChild.display(level + 1, '<')
             if self.node.leftChild != None:
                 self.node.rightChild.display(level + 1, '>')
 
-if __name__ == "__main__": 
-   t = AVLTree()
+if __name__ == "__main__":
+   nametree = AVLTree()
+   siglatree = AVLTree()
+
+   with open('dados.csv', newline='') as csvfile:
+     spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+     #f = open('remocao264.txt', 'w')
+     num = 0
+     for row in spamreader:
+        #Cada row = Cada país
+        row=', '.join(row)
+        row=row.split(';')
+        aux_name_node = Node(row[0])
+        aux_sig_node = Node(row[1])
+        aux_name_node.pointer = aux_sig_node
+        aux_sig_node.pointer = aux_name_node
+        aux = self.insert(aux_name_node)
+        no = self.find(row[0])
+        #num = num + 1
+        #f.write("4\n1\n%s\n" %row[0])
+        for n in range(2,len(row)):
+            #Cada n = index de celula de pops
+            no.get_ctry_pop()[1960+n-2] = row[n]
+            #self.display()
+         #f.close()
+
+
    # timer = False
-   t.carregarDados()
    start=time.time()
    while(True):
       # print("\nTemporizador de operações:",timer)
@@ -341,7 +343,7 @@ if __name__ == "__main__":
          if(aux != None):
             aux.get_ctry_pop()[usertext2] = usertext3
          # if(timer is True):
-         #    end=time.time()  
+         #    end=time.time()
          #    print("Operacao demorou: %.10f segundos" %(end-start))
 
       if(userop == 4):  #REMOCAO
@@ -382,5 +384,3 @@ if __name__ == "__main__":
          print("Carregar metade dos dados demorou: %.10f segundos" %(cdend-cdstart))
    end=time.time()
    print("Operacao demorou: %.10f segundos" %(end-start))
-
-   
