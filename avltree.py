@@ -177,8 +177,6 @@ class AVLTree:
     def logical_successor(self,node):
         node = node.rightChild.node
         if node != None: # just a sanity check
-
-            list = LinkedList()
             while node.leftChild != None:
                 if node.leftChild.node == None:
                     return node
@@ -276,31 +274,51 @@ class AVLTree:
             if self.node.leftChild != None:
                 self.node.rightChild.display(level + 1, '>')
 
+#nome e sigla
+def createNode(key1,key2): 
+    llist = AuxiliarLinkedList()
+    aux_name_node = Node(key1)
+    aux_sig_node = Node(key2)
+    aux_name_node.pointer = aux_sig_node
+    aux_name_node.list = llist 
+    aux_sig_node.pointer = aux_name_node
+    return aux_name_node,aux_sig_node
+
+
+
+
+def carregardados():
+    with open('dados.csv', newline='') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+        #f = open('remocao264.txt', 'w')
+        #num = 0
+        for row in spamreader:
+            #Cada row = Cada país
+            row=', '.join(row)
+            row=row.split(';')
+            aux_name,aux_sig = createNode(row[0],row[1])
+            for n in range(2,len(row)):
+                #Cada n = index de celula de pops
+                #no.get_ctry_pop()[1960+n-2] = row[n]
+                aux_name.list.find(1960+n-2).set_pop(row[n])
+                #self.display()
+            aux = nametree.insert(aux_name)
+            aux1 = siglatree.insert(aux_sig)   
+
+
+
+
+
+
+
+
+
+
 if __name__ == "__main__":
    nametree = AVLTree()
    siglatree = AVLTree()
    
-   with open('dados.csv', newline='') as csvfile:
-     spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-     #f = open('remocao264.txt', 'w')
-     num = 0
-     for row in spamreader:
-        #Cada row = Cada país
-        llist = AuxiliarLinkedList()
-        row=', '.join(row)
-        row=row.split(';')
-        aux_name_node = Node(row[0])
-        aux_sig_node = Node(row[1])
-        aux_name_node.pointer = aux_sig_node
-        aux_name_node.list = llist 
-        aux_sig_node.pointer = aux_name_node
-        for n in range(2,len(row)):
-            #Cada n = index de celula de pops
-            #no.get_ctry_pop()[1960+n-2] = row[n]
-            aux_name_node.list.find(1960+n-2).set_pop(row[n])
-            #self.display()
-        aux = nametree.insert(aux_name_node)
-        #no = self.find(row[0])
+   carregardados()
 
    # timer = False
    start=time.time()
@@ -328,7 +346,9 @@ if __name__ == "__main__":
          usertext = input("Indicar nome de país a inserir: ")
          usertext2 = input("Indicar codigo de país a inserir: ")
          # start=time.time()
-         t.insert(usertext,usertext2)
+         aux_name,aux_sig = createNode(usertext,usertext2)
+         nametree.insert(aux_name)
+         siglatree.insert(aux_sig)
          # if(usercrit == 1):
          #    aux = t.insert(usertext,usertext2)
          #    for n in range(0,57):
@@ -344,9 +364,9 @@ if __name__ == "__main__":
          usertext2 = eval(input("Indicar ano que se pretende alterar (1960 a 2016 inclusive): "))
          usertext3 = eval(input("Indicar valor: "))
          # start=time.time()
-         aux = t.find(usertext)
+         aux = nametree.find(usertext)
          if(aux != None):
-            aux.get_ctry_pop()[usertext2] = usertext3
+            aux.list.find(usertext2).set_pop(usertext3)
          # if(timer is True):
          #    end=time.time()
          #    print("Operacao demorou: %.10f segundos" %(end-start))
@@ -356,7 +376,8 @@ if __name__ == "__main__":
          if(usercrit == 1):
             usertext = input("Indicar nome de país que se pretende remover: ")
             # start=time.time()
-            t.remove(usertext)
+            siglatree.remove(nametree.find(usertext).pointer.key)
+            nametree.remove(usertext)
             # if(timer is True):
             #    end=time.time()
             #    print("Operacao demorou: %.10f segundos" %(end-start))
@@ -364,9 +385,9 @@ if __name__ == "__main__":
             usertext = input("Indicar nome do país do qual se pretende remover uma percentagem: ")
             usertext2 = eval(input("Indicar o ano do qual se pretende remover uma percentagem: "))
             # start=time.time()
-            aux = t.find(usertext)
+            aux = nametree.find(usertext)
             if(aux != None):
-               aux.get_ctry_pop()[usertext2] = ''
+                aux.list.find(usertext2).set_pop('')
             # if(timer is True):
             #    end=time.time()
             #    print("Operacao demorou: %.10f segundos" %(end-start))
