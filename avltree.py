@@ -1,7 +1,7 @@
 import csv
 import time
 from random import randint
-
+from linkedlistaux import *
 
 class Node:
     def __init__(self, info):
@@ -25,9 +25,14 @@ class Node:
       self.ctry_code = newctry_code
     def set_next(self, new_next):
       self.next = new_next
-    def nodeprint(self):
-       print(self.ctry_name,self.ctry_code,end=' ')
-       print(self.ctry_pop)
+    def nodeprint(self,usercrit):
+        if usercrit == 1:
+            print(self.key,self.pointer.key,end=' ')
+            print(self.list.print_list())
+        elif usercrit == 2:
+            print(self.pointer.key,self.key,end=' ')
+            print(self.pointer.list.print_list()) 
+
 
 
 class AVLTree:
@@ -173,6 +178,7 @@ class AVLTree:
         node = node.rightChild.node
         if node != None: # just a sanity check
 
+            list = LinkedList()
             while node.leftChild != None:
                 if node.leftChild.node == None:
                     return node
@@ -209,7 +215,7 @@ class AVLTree:
     def find(self,key):
         if self.node == None:
             return None
-        if jey < self.node.key:
+        if key < self.node.key:
             if self.node.leftChild != None:
                 return self.node.leftChild.find(key)
             else:
@@ -273,30 +279,28 @@ class AVLTree:
 if __name__ == "__main__":
    nametree = AVLTree()
    siglatree = AVLTree()
-   list = LinkedList()
-
+   
    with open('dados.csv', newline='') as csvfile:
      spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
      #f = open('remocao264.txt', 'w')
      num = 0
      for row in spamreader:
         #Cada row = Cada país
+        llist = AuxiliarLinkedList()
         row=', '.join(row)
         row=row.split(';')
         aux_name_node = Node(row[0])
         aux_sig_node = Node(row[1])
         aux_name_node.pointer = aux_sig_node
+        aux_name_node.list = llist 
         aux_sig_node.pointer = aux_name_node
-        aux = self.insert(aux_name_node)
-        no = self.find(row[0])
-        #num = num + 1
-        #f.write("4\n1\n%s\n" %row[0])
         for n in range(2,len(row)):
             #Cada n = index de celula de pops
-            no.get_ctry_pop()[1960+n-2] = row[n]
+            #no.get_ctry_pop()[1960+n-2] = row[n]
+            aux_name_node.list.find(1960+n-2).set_pop(row[n])
             #self.display()
-         #f.close()
-
+        aux = nametree.insert(aux_name_node)
+        #no = self.find(row[0])
 
    # timer = False
    start=time.time()
@@ -308,11 +312,11 @@ if __name__ == "__main__":
          usertext = input("Inserir palavra: ")
          # start=time.time()
          if(usercrit == 1):
-            aux = t.find(usertext)
+            aux = nametree.find(usertext)
          if(usercrit == 2):
-            aux = t.findCode(usertext)
+            aux = siglatree.find(usertext)
          if(aux != None):
-            aux.nodeprint()
+            aux.nodeprint(usercrit)
          else:
              print("Nao existe")
          # if(timer is True):

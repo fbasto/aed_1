@@ -21,7 +21,7 @@ class PopNode:
    def set_next(self, new_next):
       self.next = new_next
    def nodeprint(self):
-       print(self.newyear,self.percentpop)
+       print(self.year,self.percentpop)
 
 
 class AuxiliarLinkedList:
@@ -34,7 +34,7 @@ class AuxiliarLinkedList:
       return self.head == None
 
    def add(self, newyear, newpercent):
-      temp = PopNode(year, newpercent)
+      temp = PopNode(newyear, newpercent)
       temp.set_next(self.head)
       self.head = temp
       return self.head
@@ -57,7 +57,7 @@ class AuxiliarLinkedList:
          print("O pais",elem,"não foi encontrado")
    
    def print_list(self):
-      print("PRINTING LINKED LIST")
+      #print("PRINTING LINKED LIST")
       currentNode = self.head
       if currentNode == None:
          return 0
@@ -83,7 +83,7 @@ class AuxiliarLinkedList:
       while(aux.get_year() != elem and aux.get_next() != None):
          aux = aux.get_next()
       if(aux.get_year() == elem):
-         print("Encontrou o ano", elem)
+         #print("Encontrou o ano", elem)
          return aux
       else:
          print("O ano",elem,"não foi encontrado")
