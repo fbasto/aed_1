@@ -1,13 +1,13 @@
 import csv
 import time
+from linkedlistaux import *
+
 
 class BinaryTree():
-   def __init__(self, init_ctry_name, init_ctry_code):
-      self.ctry_name = init_ctry_name
-      self.ctry_code = init_ctry_code
-      self.ctry_pop = {} 
-      for i in range(0,57):
-         self.ctry_pop[1960+i] = ''
+   def __init__(self,info):
+      self.key= info
+      self.pointer= None
+      self.list = None
       self.rightChild= None
       self.leftChild=None
 
@@ -26,25 +26,32 @@ class BinaryTree():
       self.ctry_name = newctry_name
    def set_ctry_code(self, new_ctry_code):
       self.ctry_code = newctry_code
-   def nodeprint(self):
-      print(self.ctry_name,self.ctry_code,end=' ')
-      print(self.ctry_pop)
+   def nodeprint(self,usercrit):
+      if usercrit == 1:
+          print(self.key,self.pointer.key,end=' ')
+          print(self.list.print_list())
+      elif usercrit == 2:
+          print(self.pointer.key,self.key,end=' ')
+          print(self.pointer.list.print_list())  
 
 
-   def find(self,ctry_name):
-      if ctry_name < self.ctry_name:
+   def find(self,key):
+      if key< self.key:
          if self.leftChild != None:
-            return self.leftChild.find(ctry_name)
+            return self.leftChild.find(key)
          else:
             return None
-      elif ctry_name > self.ctry_name:
+      elif key> self.key:
          if self.rightChild != None:
-            return self.rightChild.find(ctry_name)
+            return self.rightChild.find(key)
          else:
             return None
       else:
          return self
 
+
+    
+   """
    def findCode(self,ctry_code):
       if ctry_code < self.ctry_code:
          if self.leftChild != None:
@@ -58,40 +65,39 @@ class BinaryTree():
             return None
       else:
          return self
+   """
 
-
-   def add(self,init_ctry_name, init_ctry_code):
-      no = BinaryTree(init_ctry_name, init_ctry_code)
-      if self.ctry_name > no.ctry_name:
+   def add(self,newnode):
+      if self.key > newnode.key:
          if self.leftChild is None:
-            self.leftChild = no
+            self.leftChild = newnode
          else:
-            self.leftChild.add(init_ctry_name,init_ctry_code)
-      elif self.ctry_name < no.ctry_name:
+            self.leftChild.add(newnode)
+      elif self.key< newnode.key:
          if self.rightChild is None:
-            self.rightChild = no
+            self.rightChild = newnode 
          else:
-            self.rightChild.add(init_ctry_name,init_ctry_code)
+            self.rightChild.add(newnode)
       else:
          print("Nó já existe na árvore!")
-      return no
+      return newnode
 
 
    #descobre o menor elemento da subarvore direita, copia os dados para o nó atual e é removido
-   def remove(self,ctry_name):
-      if ctry_name < self.ctry_name and self.leftChild != None:
-         self.leftChild = self.leftChild.remove(ctry_name)
-      elif ctry_name > self.ctry_name and self.rightChild != None:
-         self.rightChild = self.rightChild.remove(ctry_name)
-      elif ctry_name == self.ctry_name:
+   def remove(self,key):
+      if key < self.key and self.leftChild != None:
+         self.leftChild = self.leftChild.remove(key)
+      elif key > self.key and self.rightChild != None:
+         self.rightChild = self.rightChild.remove(key)
+      elif key == self.key:
          if self.rightChild is None:
             return self.leftChild
          if self.leftChild is None:
             return self.rightChild
          aux = self.rightChild.find_min()
-         self.ctry_name=aux.ctry_name
-         self.ctry_code=aux.ctry_code
-         self.ctry_pop=aux.ctry_pop
+         self.key = aux.key
+         self.pointer = aux.pointer
+         self.list = aux.list
          self.rightChild = self.rightChild.remove_min()
       else: 
          print("Nó não existe!")
@@ -111,34 +117,6 @@ class BinaryTree():
          self.leftChild = self.leftChild.remove_min()
          return self
 
-
-   def carregarDados(self):
-      with open('dados.csv', newline='') as csvfile:
-         spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-         for row in spamreader:
-            #Cada row = Cada país
-            row=', '.join(row)
-            row=row.split(';')
-            aux = self.add(row[0],row[1])
-            no = self.find(row[0])
-            for n in range(2,len(row)):
-               #Cada n = index de celula de pops
-               no.get_ctry_pop()[1960+n-2] = row[n]
-
-   def carregarDados2(self):
-      with open('dados132.csv', newline='') as csvfile:
-         spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-         for row in spamreader:
-            #Cada row = Cada país
-            row=', '.join(row)
-            row=row.split(';')
-            aux = self.add(row[0],row[1])
-            no = self.find(row[0])
-            for n in range(2,len(row)):
-               #Cada n = index de celula de pops
-               no.get_ctry_pop()[1960+n-2] = row[n]
-
-
    def printTree(self):
       if self == None:
          print("Árvore vazia!")
@@ -150,12 +128,42 @@ class BinaryTree():
             self.rightChild.printTree()
          print(self.ctry_name,"|",self.ctry_code)
 
+#nome e sigla
+def createNode(key1,key2): 
+    llist = AuxiliarLinkedList()
+    aux_name_node = BinaryTree(key1)
+    aux_sig_node = BinaryTree(key2)
+    aux_name_node.pointer = aux_sig_node
+    aux_name_node.list = llist 
+    aux_sig_node.pointer = aux_name_node
+    return aux_name_node,aux_sig_node
+
+def carregardados():
+    with open('dados.csv', newline='') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+        #f = open('remocao264.txt', 'w')
+        #num = 0
+        for row in spamreader:
+            #Cada row = Cada país
+            row=', '.join(row)
+            row=row.split(';')
+            aux_name,aux_sig = createNode(row[0],row[1])
+            for n in range(2,len(row)):
+                #Cada n = index de celula de pops
+                #no.get_ctry_pop()[1960+n-2] = row[n]
+                aux_name.list.find(1960+n-2).set_pop(row[n])
+                #self.display()
+            aux = bstname.add(aux_name)
+            aux1 = bstsigla.add(aux_sig)
+
+
+
 if __name__ == "__main__": 
-   bts = BinaryTree("Nome","Código")
+   bstname = BinaryTree("Nome")
+   bstsigla = BinaryTree("Nome")
    # timer = False
-   bts.remove("Nome")
-   bts.printTree()
-   bts.carregarDados()
+   
+   carregardados()
    start = time.time()
    while(True):
       # print("\nTemporizador de operações:",timer)
@@ -165,11 +173,11 @@ if __name__ == "__main__":
          usertext = input("Inserir palavra: ")
          # start=time.time()
          if(usercrit == 1):
-            aux = bts.find(usertext)
+            aux = bstname.find(usertext)
          if(usercrit == 2):
-            aux = bts.findCode(usertext)
+            aux = bstsigla.find(usertext)
          if(aux != None):
-            aux.nodeprint()
+            aux.nodeprint(usercrit)
          else:
             print("Nao existe")
          # if(timer is True):
@@ -181,7 +189,9 @@ if __name__ == "__main__":
          usertext = input("Indicar nome de país a inserir: ")
          usertext2 = input("Indicar codigo de país a inserir: ")
          # start=time.time()
-         bts.add(usertext,usertext2)
+         aux_name,aux_sig = createNode(usertext,usertext2)
+         bstname.add(aux_name)
+         bstsigla.add(aux_sig)
          # if(timer is True):
          #    end=time.time()
          #    print("Operacao demorou: %.10f segundos" %(end-start))
@@ -192,9 +202,9 @@ if __name__ == "__main__":
          usertext2 = eval(input("Indicar ano que se pretende alterar (1960 a 2016 inclusive): "))
          usertext3 = eval(input("Indicar valor: "))
          # start=time.time()
-         aux = bts.find(usertext)
+         aux = bstname.find(usertext)
          if(aux != None):
-            aux.get_ctry_pop()[usertext2] = usertext3
+            aux.list.find(usertext2).set_pop(usertext3)
          # if(timer is True):
          #    end=time.time()  
          #    print("Operacao demorou: %.10f segundos" %(end-start))
@@ -204,7 +214,8 @@ if __name__ == "__main__":
          if(usercrit == 1):
             usertext = input("Indicar nome de país que se pretende remover: ")
             # start=time.time()
-            bts.remove(usertext)
+            bstsigla.remove(bstname.find(usertext).pointer.key)
+            bstname.remove(usertext)
             # if(timer is True):
             #    end=time.time()
             #    print("Operacao demorou: %.10f segundos" %(end-start))
@@ -212,9 +223,9 @@ if __name__ == "__main__":
             usertext = input("Indicar nome do país do qual se pretende remover uma percentagem: ")
             usertext2 = eval(input("Indicar o ano do qual se pretende remover uma percentagem: "))
             # start=time.time()
-            aux = bts.find(usertext)
+            aux = bstname.find(usertext)
             if(aux != None):
-               aux.get_ctry_pop()[usertext2] = ''
+               aux.list.find(usertext2).set_pop('')
             # if(timer is True):
             #    end=time.time()
             #    print("Operacao demorou: %.10f segundos" %(end-start))
