@@ -273,6 +273,7 @@ class AVLTree:
 if __name__ == "__main__":
    nametree = AVLTree()
    siglatree = AVLTree()
+   list = LinkedList()
 
    with open('dados.csv', newline='') as csvfile:
      spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
