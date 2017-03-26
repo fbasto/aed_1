@@ -208,12 +208,12 @@ if __name__ == "__main__":
 			#    timer = False
 		if(userop == 7):
 			cdstart = time.time()
-			l.carregarDados()
+			carregarDados()
 			cdend=time.time()
 			print("Carregar dados demorou: %.10f segundos" %(cdend-cdstart))
 		if(userop == 8):
 			cdstart = time.time()
-			l.carregarDados2()
+			carregarDados2()
 			cdend=time.time()
 			print("Carregar metade dos dados demorou: %.10f segundos" %(cdend-cdstart))
 	end=time.time()

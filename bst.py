@@ -138,8 +138,26 @@ def createNode(key1,key2):
     aux_sig_node.pointer = aux_name_node
     return aux_name_node,aux_sig_node
 
-def carregardados():
+def carregarDados():
     with open('dados.csv', newline='') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+        #f = open('remocao264.txt', 'w')
+        #num = 0
+        for row in spamreader:
+            #Cada row = Cada país
+            row=', '.join(row)
+            row=row.split(';')
+            aux_name,aux_sig = createNode(row[0],row[1])
+            for n in range(2,len(row)):
+                #Cada n = index de celula de pops
+                #no.get_ctry_pop()[1960+n-2] = row[n]
+                aux_name.list.find(1960+n-2).set_pop(row[n])
+                #self.display()
+            aux = bstname.add(aux_name)
+            aux1 = bstsigla.add(aux_sig)
+
+def carregarDados2():
+    with open('dados132.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
         #f = open('remocao264.txt', 'w')
         #num = 0
@@ -238,12 +256,12 @@ if __name__ == "__main__":
          #    timer = False
       if(userop == 7):
          cdstart = time.time()
-         bts.carregarDados()
+         carregarDados()
          cdend=time.time()
          print("Carregar dados demorou: %.10f segundos" %(cdend-cdstart))
       if(userop == 8):
          cdstart = time.time()
-         bts.carregarDados2()
+         carregarDados2()
          cdend=time.time()
          print("Carregar metade dos dados demorou: %.10f segundos" %(cdend-cdstart))
    end=time.time()
