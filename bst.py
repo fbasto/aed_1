@@ -181,7 +181,7 @@ if __name__ == "__main__":
    bstsigla = BinaryTree("Nome")
    # timer = False
    
-   carregardados()
+   carregarDados()
    start = time.time()
    while(True):
       # print("\nTemporizador de operações:",timer)
